@@ -9,22 +9,23 @@
 ---
 
 ### **Overview**
-**Rusted** is a vanilla-friendly mod that extends the copper oxidation mechanic to iron blocks. Add realism and depth to your world by watching iron structures corrode through four realistic rust states. Your metal structures will never look the same again.
+**Rusted** is a vanilla-friendly mod that extends the copper oxidation mechanic directly to vanilla Iron Blocks and new Cut Iron variants. Add realism and depth to your builds by watching metal structures corrode through four distinct rust stages.
 
 ---
 
 ### **Features**
 
-* **Dynamic Oxidation:** Iron blocks and their variants gradually rust through 4 distinct stages over time.
-* **Environmental Weathering:** Water contact and rain exposure significantly accelerate the rusting process.
-* **Waxing & Scraping:** Preserve any stage using Honeycomb, or scrape away rust and wax using an Axe.
-* **In-Game Configuration:** Fine-tune oxidation speed, weather multipliers, and toggles via a clean config screen.
+* **Oxidation System:** Iron blocks and structural variants naturally progress through four distinct rust stages.
+* **Environmental Accelerators:** Weather exposure and water contact increase the rate of corrosion.
+* **Surface Maintenance:** Lock blocks at any oxidation state using Honeycomb, or strip rust and wax using an Axe.
+* **Customization & Localization:** Fully configurable mechanics with native support for multiple languages.
 
 ---
 
-### **Planned Integrations**
-* ⚙️ **Create Mod Integration**
-* 🗃️ **Recipe Viewers Support**
+### **Integrations & Compatibility**
+
+* **Create Mod:** Full compatibility with Create's Industrial Iron blocks, windows, and window panes.
+* **Recipe Viewers:** Native support for EMI, JEI, and REI to display oxidation cycles and interaction outcomes.
 
 ---
 
@@ -33,6 +34,7 @@ To ensure compatibility, please use the following versions:
 
 * **Minecraft:** `1.21.1`
 * **NeoForge:** `21.1.208` or higher
+* **Create (Optional):** `6.0.0` or higher
 
 ---
 
@@ -43,6 +45,20 @@ To ensure compatibility, please use the following versions:
 * 📜 **License:** MIT
 
 ---
+
+<details>
+<summary>📜 License & Credits</summary>
+
+This mod is licensed under the **MIT License**.
+
+* **Code & Logic:** Developed by ripiters.
+* **Texture Credits:** Original textures inspired by/modified from Lemon's Rusted Iron mod.
+
+Full attribution and licensing information can be found in the `CREDITS.txt` file included with the mod file.
+</details>
+
+#
+
 <div align="center">
   <sub>Built with passion for the Minecraft community.</sub>
 </div>
