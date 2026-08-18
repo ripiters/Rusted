@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "rusted:block/cut_iron_block"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "rusted:block/exposed_cut_iron_slab"
+    },
+    "type=double": {
+      "model": "rusted:block/exposed_cut_iron_block"
+    },
+    "type=top": {
+      "model": "rusted:block/exposed_cut_iron_slab_top"
+    }
+  }
+}
