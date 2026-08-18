@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "rusted:cut_iron_block"
+    }
+  },
+  "result": {
+    "count": 6,
+    "id": "rusted:cut_iron_slab"
+  }
+}

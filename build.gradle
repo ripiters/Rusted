@@ -1,0 +1,203 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'eclipse'
+    id 'idea'
+    alias libs.plugins.modDevGradle
+}
+
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
+}
+
+version = mod_version
+group = mod_group_id
+base { archivesName = mod_id }
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = project.neoforge_version
+
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
+
+    // accessTransformers = project.files('src/main/templates/META-INF/accesstransformer.cfg')
+
+    validateAccessTransformers = true
+
+    runs {
+        client {
+            client()
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        server {
+            server()
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+        gameTestServer {
+            type = "gameTestServer"
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        data {
+            data()
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir('src/generated/resources') }
+
+configurations { runtimeClasspath.extendsFrom localRuntime }
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+
+    maven { // ModMaven
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
+
+    exclusiveContent { // Modrinth Maven
+        forRepository { maven { url = "https://api.modrinth.com/maven" } }
+        filter { includeGroup("maven.modrinth") }
+    }
+
+    exclusiveContent { // Curseforge Maven
+        forRepository { maven { url = "https://cursemaven.com" } }
+        filter { includeGroup("curse.maven") }
+    }
+
+    exclusiveContent { // Sodium Maven
+        forRepository { maven { url = "https://maven.caffeinemc.net/releases" } }
+        filter { includeGroup("net.caffeinemc") }
+    }
+
+    exclusiveContent { // JEI Maven
+        forRepository { maven { url = "https://maven.blamejared.com" } }
+        filter { includeGroup("mezz.jei") }
+    }
+
+    exclusiveContent { // EMI Maven
+        forRepository { maven { url = "https://maven.terraformersmc.com/releases/" } }
+        filter { includeGroup("dev.emi") }
+    }
+
+    exclusiveContent { // Create, Ponder, Flywheel
+        forRepository { maven { url = "https://maven.createmod.net" } }
+        filter {
+            includeGroup("net.createmod.ponder")
+            includeGroup("com.simibubi.create")
+            includeGroup("dev.engine-room.flywheel")
+        }
+    }
+
+    exclusiveContent { // Sable
+        forRepository { maven { url = "https://maven.ryanhcode.dev/releases" } }
+        filter {
+            includeGroup("dev.ryanhcode.sable")
+            includeGroup("dev.ryanhcode.sable-companion")
+        }
+    }
+
+    exclusiveContent { // Registrate
+        forRepository { maven { url = "https://mvn.devos.one/snapshots/" } }
+        filter { includeGroup("com.tterrag.registrate") }
+    }
+}
+
+dependencies {
+    // Compile
+    compileOnly(libs.jetbrains.annotations)
+    annotationProcessor(variantOf(libs.mixin) { classifier("processor") })
+    compileOnly(neoforge.mixinExtras)
+    jarJar(api(neoforge.mixinExtras.get())).version {
+        require("[${neoforge.versions.mixinExtras.get()},)")
+    }
+    compileOnly(neoforge.jei.api)
+    compileOnly(neoforge.emi)
+    implementation(neoforge.sable.companion)
+    compileOnly(neoforge.sable)
+    compileOnly(neoforge.sable.rapier)
+    implementation(variantOf(neoforge.create) { classifier("slim") }) { transitive = false }
+    implementation(neoforge.ponder)
+    compileOnly(neoforge.flywheel.api)
+    implementation(neoforge.registrate)
+
+    // Runtime
+    runtimeOnly(neoforge.jei.impl)
+    runtimeOnly(neoforge.emi)
+    runtimeOnly(neoforge.jade)
+    runtimeOnly(neoforge.sodium)
+    runtimeOnly(neoforge.iris)
+    runtimeOnly(neoforge.modernfix)
+    runtimeOnly(neoforge.spark)
+    runtimeOnly(neoforge.flywheel.impl)
+}
+
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    var replaceProperties = [
+            minecraft_version       : minecraft_version,
+            neoforge_version        : neoforge_version,
+            neoforge_version_range  : neoforge_version_range,
+            loader_version_range    : loader_version_range,
+            mod_id                  : mod_id,
+            mod_name                : mod_name,
+            mod_description         : mod_description,
+            mod_license             : mod_license,
+            mod_version             : mod_version,
+            mod_authors             : mod_authors,
+            mod_url                 : mod_url,
+            mod_issue_tracker       : mod_issue_tracker,
+            create_version_range    : create_version_range,
+            sodium_version_range    : sodium_version_range,
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
+}
+sourceSets.main.resources.srcDir generateModMetadata
+neoForge.ideSyncTask generateModMetadata
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/repo"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}

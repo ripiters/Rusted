@@ -1,0 +1,11 @@
+### Added:
+Cut Iron variants: Cut Iron Blocks, Cut Iron Stairs, and Cut Iron Slabs (available in all oxidation and waxed states).
+Create mod integration: Full support for Industrial Iron Blocks, Industrial Iron Windows, and Industrial Iron Window Panes (rusting, waxing, scraping, and EMI support).
+
+13 new languages: Spanish, German, Russian, Ukrainian, Czech, Slovak, Japanese, Hindi, Italian, French, Portuguese, Chinese.
+New config option: enableCreateCompat to toggle Create mod integration.
+
+### Changed:
+Removed Rustable Iron Block: Vanilla Iron Blocks now rust directly using standard copper oxidation mechanics.
+
+Improved particles: Added block breaking particles when scraping rust or unwaxing blocks with an axe (toggleable in config).
