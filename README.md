@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="src/main/resources/assets/rusted/icon.png" width="128" height="128" alt="Rusted Mod Icon">
+  <img src="src/main/resources/icon.png" width="128" height="128" alt="Rusted Mod Icon">
 
 # **Rusted**
 
