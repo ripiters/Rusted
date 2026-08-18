@@ -34,7 +34,7 @@ To ensure compatibility, please use the following versions:
 
 * **Minecraft:** `1.21.1`
 * **NeoForge:** `21.1.208` or higher
-* **Create (Optional):** `6.0.0` or higher
+* **Create (Optional):** `6.0.6` or higher
 
 ---
 
